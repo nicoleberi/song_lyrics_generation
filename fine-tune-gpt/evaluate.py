@@ -8,8 +8,8 @@ import torch
 
 def test():
     # to load
-    model = GPT2LMHeadModel.from_pretrained('./fine-tuned_model')
-    tokenizer = GPT2Tokenizer.from_pretrained('./fine-tuned_model')
+    model = GPT2LMHeadModel.from_pretrained('./gpt2-fine-tuned')
+    tokenizer = GPT2Tokenizer.from_pretrained('./gpt2-fine-tuned')
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     model.to(device)
 
@@ -17,7 +17,7 @@ def test():
     input_tok = tokenizer(prompt, return_tensors='pt', padding=True).to(device)
     tokenizer.pad_token = tokenizer.eos_token
 
-    result = model.generate(input_ids=input_tok["input_ids"], max_length=30, do_sample=True, top_p=0.9, temperature=0.7, pad_token_id=tokenizer.pad_token_id)
+    result = model.generate(input_ids=input_tok["input_ids"], max_length=100, do_sample=True, top_p=0.9, temperature=0.7, pad_token_id=tokenizer.pad_token_id)
 
     result_text = tokenizer.decode(result[0], skip_special_tokens=True)
     return result_text
